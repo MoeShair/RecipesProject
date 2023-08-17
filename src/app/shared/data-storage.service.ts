@@ -3,6 +3,7 @@ import {RecipeService} from "../recipes/recipe.serveice";
 import {HttpClient} from "@angular/common/http";
 import {Recipe} from "../recipes/Recipe.model";
 import {map, tap} from "rxjs";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import {map, tap} from "rxjs";
 export class DataStorageService {
 
   constructor(private http: HttpClient,
-              private recipeService: RecipeService) {
+              private recipeService: RecipeService,
+              private authService: AuthService) {
   }
 
   storeRecipes() {
@@ -24,23 +26,21 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    return this.http
-      .get<Recipe[]>(
-        'https://ng-course-recipe-book-54c7f-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
-      )
-      .pipe(
-        map(recipes => {
-          return recipes.map(recipe => {
-            return {
-              ...recipe,
-              ingredients: recipe.ingredients ? recipe.ingredients : []
-            };
-          });
-        }),
-        tap(recipes => {
-          this.recipeService.setRecipes(recipes);
-        })
-      )
+    return this.http.get<Recipe[]>(
+      'https://ng-course-recipe-book-54c7f-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
+    ).pipe(map(recipes => {
+        return recipes.map(recipe => {
+          return {
+            ...recipe,
+            ingredients: recipe.ingredients ? recipe.ingredients : []
+          };
+        });
+      }),
+      tap(recipes => {
+        this.recipeService.setRecipes(recipes);
+      })
+    );
   }
+
 
 }
