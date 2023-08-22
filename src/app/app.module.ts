@@ -8,6 +8,9 @@ import {ShoppingListModule} from "./shopping-list/shopping-list.module";
 import {SharedModule} from "./shared/shared.module";
 import {CoreModule} from "./core.module";
 import {AuthModule} from "./auth/auth.module";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import {shoppingListReducer} from "./shopping-list/store/shopping-list.reducer";
 
 
 @NgModule({
@@ -21,7 +24,9 @@ import {AuthModule} from "./auth/auth.module";
         AppRoutingModule,
         HttpClientModule,
         SharedModule,
-        CoreModule
+        CoreModule,
+        StoreModule.forRoot({shoppingList: shoppingListReducer}),
+        EffectsModule.forRoot([])
     ],
     bootstrap: [AppComponent]
 })
