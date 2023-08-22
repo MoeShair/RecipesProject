@@ -9,7 +9,7 @@ import {
 
 import { DataStorageService } from '../shared/data-storage.service';
 import {Recipe} from "./Recipe.model";
-import {RecipeService} from "./recipe.serveice";
+import {RecipeService} from "./recipe.service";
 @Injectable({ providedIn: 'root' })
 export class RecipesResolverService implements Resolve<Recipe[]> {
   constructor(
